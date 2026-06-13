@@ -5,9 +5,9 @@
  * @returns camera Controls
  */
 
-function initCameraControls(camera, renderer) {
+export function initCameraControls(camera, renderer) {
 
-    let trackballControls = THREE.TrackbalsControls(camera, renderer.domElement);
+    let trackballControls = new THREE.TrackballControls(camera, renderer.domElement);
 
     trackballControls.rotateSpeed = 1;
     trackballControls.zoomSpeed = 1.2;
