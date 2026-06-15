@@ -8,7 +8,16 @@ export const ASSET_PATHS = Object.freeze({
     GROUND_ROUGH: '/src/assets/rocky_terrain_02_1k.blend/textures/rocky_terrain_02_rough_1k.png',
     GROUND_SPEC: '/src/assets/rocky_terrain_02_1k.blend/textures/rocky_terrain_02_spec_1k.png',
 
-    SCENE_BG: '/src/assets/grasslands_sunset_1k.hdr'
+    SCENE_BG: '/src/assets/grasslands_sunset_1k.hdr',
+
+    FLOOR_DIFF:
+        '/src/assets/concrete_floor_worn_001_1k.blend/textures/concrete_floor_worn_001_diff_1k.jpg',
+    FLOOR_DISP:
+        '/src/assets/concrete_floor_worn_001_1k.blend/textures/concrete_floor_worn_001_disp_1k.png',
+    FLOOR_NORM:
+        '/src/assets/concrete_floor_worn_001_1k.blend/textures/concrete_floor_worn_001_nor-gl_1k.png',
+    FLOOR_ROUGH:
+        '/src/ssets/concrete_floor_worn_001_1k.blend/textures/concrete_floor_worn_001_rough_1k.jpg',
 });
 
 export default ASSET_PATHS;

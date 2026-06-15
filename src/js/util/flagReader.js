@@ -6,6 +6,9 @@
  * @returns isDebug enabled
  */
 export function isDebug() {
+    return new URLSearchParams(globalThis.location.search).get('debug') === 'true';
+}
 
-    return new URLSearchParams(globalThis.location.search).get("debug") === "true";
+export function isStats() {
+    return new URLSearchParams(globalThis.location.search).get('stats') === 'true';
 }
