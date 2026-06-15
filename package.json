@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/FabianS304/Computergrafik-K-rteil#readme",
   "dependencies": {
+    "eslint": "^10.5.0",
     "prettier": "3.8.4"
   }
 }
