@@ -1,3 +1,5 @@
+import { WORLD_CONFIG } from "./Config.js";
+
 export function initStats(type) {
 
     let panelType = (type !== undefined && type) && (!Number.isNaN(type)) ? Number.parseInt(type) : 0;
@@ -23,12 +25,14 @@ export function initRenderer(
 
     renderer.setSize(window.innerWidth, window.innerHeight);
 
+    renderer.shadowMap.enabled = shadowMap;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     return renderer;
 }
 
 export function initCamera(canvas) {
-    const angleOfView = 75;
+    const angleOfView = WORLD_CONFIG.CAMERA.FOV;
     const aspectRatio = canvas.clientWidth / canvas.clientHeight;
     const nearPlane = 0.1;
     const farPlane = 1000;
@@ -38,7 +42,7 @@ export function initCamera(canvas) {
         nearPlane,
         farPlane
     );
-    camera.position.set(0, 180, 430);
+    camera.position.set(50, 0, 10);
 
     return camera;
 }

@@ -17,7 +17,13 @@ export const ASSET_PATHS = Object.freeze({
     FLOOR_NORM:
         '/src/assets/concrete_floor_worn_001_1k.blend/textures/concrete_floor_worn_001_nor-gl_1k.png',
     FLOOR_ROUGH:
-        '/src/ssets/concrete_floor_worn_001_1k.blend/textures/concrete_floor_worn_001_rough_1k.jpg',
+        '/src/assets/concrete_floor_worn_001_1k.blend/textures/concrete_floor_worn_001_rough_1k.jpg',
+
+    WALL_DIFF: '/src/assets/damaged_plaster_1k.blend/textures/damaged_plaster_diff_1k.jpg',
+    WALL_DISP: '/src/assets/damaged_plaster_1k.blend/textures/damaged_plaster_disp_1k.png',
+    WALL_NORM: '/src/assets/damaged_plaster_1k.blend/textures/damaged_plaster_norm_1k.png',
+    WALL_ROUGH: '/src/assets/damaged_plaster_1k.blend/textures/damaged_plaster_rough_1k.png',
 });
 
 export default ASSET_PATHS;
+

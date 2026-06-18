@@ -1,15 +1,21 @@
 export const WORLD_CONFIG = {
     Hangar: {
-        WIDTH: 30, 
-        DEPTH: 25,
-        HEIGHT: 15,
-        POS_X: 10,
-        POS_Y: -30,
-        POS_Z: 0
+        X: 30,
+        Y: 25,
+        Z: 0.5,
+        POS_X: 0,
+        POS_Y: -0.5,
+        POS_Z: 0,
+        WALL_WIDTH: 1,
+        WALL_HEIGHT: 2,
     },
     SCENE: {
         SIZE: 150,
         DISP_FACT: 1.5,
-        SUN_INTENSITY: 2.5,
-    }
-}
+        SUN_INTENSITY: 3.5,
+    },
+
+    CAMERA: {
+        FOV: 55,
+    },
+};
