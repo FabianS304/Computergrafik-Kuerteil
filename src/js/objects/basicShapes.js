@@ -1,3 +1,9 @@
+import { getMaterial } from '../util/TextureLoader.js';
+import ASSET_PATHS from '../util/paths.js';
+import * as cfg from '../util/Config.js';
+
+const cfg_scene = cfg.WORLD_CONFIG.SCENE;
+
 export function getCube(
     width,
     height,
@@ -10,7 +16,6 @@ export function getCube(
     castShadow,
     receiveShadow
 ) {
-
     const GEOMETRY = new THREE.BoxGeometry(width, height, depth, 240, 240, 240);
 
     map.wrapS = THREE.RepeatWrapping;
@@ -33,8 +38,6 @@ export function getCube(
     heightMap.minFilter = THREE.NearestFilter;
     heightMap.repeat.set(25, 25);
 
-
-
     const MATERIAL = new THREE.MeshStandardMaterial({
         map: map,
         side: THREE.DoubleSide,
@@ -42,7 +45,7 @@ export function getCube(
         roughness: roughness,
         metalness: metalness,
         displacementMap: heightMap,
-        displacementScale: 0
+        displacementScale: 0,
     });
 
     const cube = new THREE.Mesh(GEOMETRY, MATERIAL);
@@ -52,16 +55,13 @@ export function getCube(
     return cube;
 }
 
-import { getMaterial } from '../util/TextureLoader.js';
-import ASSET_PATHS from '../util/paths.js';
-
-export function getWorldPlane(gl, x = 800, y = 500) {
-    const GEOMETRY = new THREE.PlaneGeometry(x, y, 256, 256);
+export function getWorldPlate(gl, x = 150, y = 150) {
+    const GEOMETRY = new THREE.PlaneGeometry(x, y, 150, 150);
 
     const map = getMaterial(ASSET_PATHS.GROUND_DIFF);
     map.wrapS = THREE.RepeatWrapping;
     map.wrapT = THREE.RepeatWrapping;
-    map.repeat.set(15, 15);
+    map.repeat.set(4, 4);
     map.minFilter = THREE.NearestFilter;
     map.anisotropy = gl.capabilities.getMaxAnisotropy();
 
@@ -69,21 +69,21 @@ export function getWorldPlane(gl, x = 800, y = 500) {
     planeNorm.wrapS = THREE.RepeatWrapping;
     planeNorm.wrapT = THREE.RepeatWrapping;
     planeNorm.minFilter = THREE.NearestFilter;
-    planeNorm.repeat.set(15, 15);
+    planeNorm.repeat.set(4, 4);
 
     const heightMap = getMaterial(ASSET_PATHS.GROUND_DISP);
     heightMap.wrapS = THREE.RepeatWrapping;
     heightMap.wrapT = THREE.RepeatWrapping;
     heightMap.minFilter = THREE.NearestFilter;
-    heightMap.repeat.set(15, 15);
+    heightMap.repeat.set(4, 4);
 
     const MATERIAL = new THREE.MeshStandardMaterial({
         map: map,
         side: THREE.DoubleSide,
         normalMap: planeNorm,
-        roughness: 0.8,
+        roughness: 1,
         displacementMap: heightMap,
-        displacementScale: 4
+        displacementScale: cfg_scene.DISP_FACT,
     });
 
     const plane = new THREE.Mesh(GEOMETRY, MATERIAL);
