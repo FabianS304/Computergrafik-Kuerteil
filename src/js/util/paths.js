@@ -23,7 +23,7 @@ export const ASSET_PATHS = Object.freeze({
     WALL_ROUGH: '/src/assets/damaged_plaster_1k.blend/textures/damaged_plaster_rough_1k.png',
     ROOF_DIFF: '/src/assets/corrugated_iron_03_1k.blend/textures/corrugated_iron_03_diff_1k.jpg',
 
-    JETPLANE: '/src/assets/fa-18c_hornet.glb',
+    JETPLANE: '/src/assets/F16.glb',
 });
 
 export default ASSET_PATHS;

@@ -10,8 +10,8 @@ export function getDirectionalLightSource(intensity, color = 0xffffff) {
     return light;
 }
 
-export function getSpotLightSource(intensity, color, target) {
-    const light = new THREE.SpotLight(color, intensity);
+export function getSpotLightSource(intensity, color, target, distance = 0, angle = Math.PI/4, preumbra = 1) {
+    const light = new THREE.SpotLight(color, intensity, distance, angle, preumbra);
 
     if (target) {
         light.target = target;

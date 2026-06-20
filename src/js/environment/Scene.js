@@ -21,7 +21,7 @@ export function initDefaultScene(isDebug, gl) {
     target.position.y = 0;
     target.position.z = 0;
     groundPlane.add(target);
-    const sun = getSpotLightSource(CFG_SCENE.SUN_INTENSITY, '#fcd8a6', target);
+    const sun = getSpotLightSource(CFG_SCENE.SUN_INTENSITY, '#fcd8a6', target, 0, Math.PI / 4, 0.5);
 
     sun.position.set(-CFG_SCENE.SIZE, 120, -CFG_SCENE.SIZE);
 
@@ -43,6 +43,7 @@ export function initDefaultScene(isDebug, gl) {
 
     getAirplane((gltf) => {
         const jet = gltf.scene;
+        jet.scale.set(0.11, 0.11, 0.11);
 
         jet.traverse((node) => {
             node.castShadow = true;
@@ -57,18 +58,12 @@ export function initDefaultScene(isDebug, gl) {
 
         // exakt auf der bodenOberkante liegt.
         jet.position.y = CFG_HANGAR.FOUNDATION_HEIGHT / 2 - box.min.y;
-        jet.rotation.y = -Math.PI / 2;
-
-        const lElevator = jet.getObjectByName('Object_187');
-        const rElevator = jet.getObjectByName('Object_182');
+        jet.rotation.y = Math.PI;
 
         scene.add(jet);
         globalThis.airplaneController = new AirplaneController(jet);
     });
 
-    const spot = getSpotLightSource(CFG_SCENE.SUN_INTENSITY, '#fcd8a6', target);
-    spot.position.set(0, 15, 0);
-
-    scene.add(spot);
+    
     return scene;
 }

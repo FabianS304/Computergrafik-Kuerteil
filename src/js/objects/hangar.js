@@ -2,6 +2,7 @@ import ASSET_PATHS from '../util/Paths.js';
 import * as basicShape from './BasicShapes.js';
 import { getMaterial, getConfiguredTexture } from '../util/TextureLoader.js';
 import { WORLD_CONFIG } from '../util/Config.js';
+import { getSpotLightSource } from '../environment/Lighting.js';
 /**
  * Baseplate
  */
@@ -9,7 +10,12 @@ import { WORLD_CONFIG } from '../util/Config.js';
 const CFG_HANGAR = WORLD_CONFIG.HANGAR;
 
 function getFoundation() {
-    const cube = basicShape.getCube(CFG_HANGAR.LENGTH, CFG_HANGAR.FOUNDATION_HEIGHT, CFG_HANGAR.WIDTH, 150);
+    const cube = basicShape.getCube(
+        CFG_HANGAR.LENGTH,
+        CFG_HANGAR.FOUNDATION_HEIGHT,
+        CFG_HANGAR.WIDTH,
+        150
+    );
 
     const map = getMaterial(ASSET_PATHS.FLOOR_DIFF);
     map.wrapS = THREE.RepeatWrapping;
@@ -33,15 +39,14 @@ function getFoundation() {
     cube.material = material;
     // Positionierung: Wenn die Höhe FOUNDATION_HEIGHT ist,
     // dann ist die Oberfläche bei FOUNDATION_HEIGHT / 2 (da Box zentriert ist)
-    cube.position.set(CFG_HANGAR.POS_X, CFG_HANGAR.POS_Y , CFG_HANGAR.POS_Z);
-
+    cube.position.set(CFG_HANGAR.POS_X, CFG_HANGAR.POS_Y, CFG_HANGAR.POS_Z);
 
     cube.receiveShadow = true;
     cube.castShadow = true;
     return cube;
 }
 
-function createWallMaterial(repeat = [1,1]) {
+function createWallMaterial(repeat = [1, 1]) {
     return new THREE.MeshStandardMaterial({
         map: getConfiguredTexture(ASSET_PATHS.WALL_DIFF, repeat[0], repeat[1]),
         normalMap: getConfiguredTexture(ASSET_PATHS.WALL_NORM, repeat[0], repeat[1]),
@@ -53,11 +58,10 @@ function createWallMaterial(repeat = [1,1]) {
 function getWall(wallLength, rotationDir) {
     const wall = basicShape.getCube(wallLength, CFG_HANGAR.WALL_WIDTH, CFG_HANGAR.WALL_HEIGHT, 256);
 
-    const repeatFront = [2,1];
+    const repeatFront = [2, 1];
     const repeatSide = [wallLength / 5, 1];
-    const repeatTop = [10,1];
+    const repeatTop = [10, 1];
 
-    
     const materials = [
         createWallMaterial(repeatFront), // front
         createWallMaterial(repeatFront), // back
@@ -78,7 +82,7 @@ function getWall(wallLength, rotationDir) {
 
     wall.receiveShadow = true;
     wall.castShadow = true;
-    
+
     return wall;
 }
 
@@ -93,13 +97,12 @@ export function getBarrelRoof(width, height, depth) {
     map.repeat.set(4, 1);
     map.minFilter = THREE.NearestFilter;
 
-     const material = new THREE.MeshStandardMaterial({
+    const material = new THREE.MeshStandardMaterial({
         map: map,
         side: THREE.DoubleSide,
         roughness: 1,
-        metalness: 0.5
+        metalness: 0.5,
     });
-
 
     roof.material = material;
     roof.rotation.z = Math.PI / 2;
@@ -111,8 +114,6 @@ export function getBarrelRoof(width, height, depth) {
 
 export function getHangar() {
     const hangar = getFoundation(); // Das ist unser Fundament-Mesh
-
-     
 
     // Liste der Wände, die wir hinzufügen wollen
     const walls = [
@@ -133,7 +134,6 @@ export function getHangar() {
         },
     ];
 
-
     // Schleife über alle Wände
     for (const element of walls) {
         const wallData = element;
@@ -150,7 +150,6 @@ export function getHangar() {
             wall.position.z = 0;
         }
 
-
         // Zur Szene hinzufügen
         hangar.add(wall);
     }
@@ -160,6 +159,10 @@ export function getHangar() {
     roof.position.y = CFG_HANGAR.FOUNDATION_HEIGHT / 2 + CFG_HANGAR.WALL_HEIGHT - box.min.y;
 
     hangar.add(roof);
+
+    const spot = getSpotLightSource(1, '#fcd8a6', hangar, 0, Math.PI / 3, 0);
+    spot.position.set(0, 14, 0);
+    hangar.add(spot);
 
     return hangar;
 }

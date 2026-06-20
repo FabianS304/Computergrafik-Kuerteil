@@ -18,14 +18,14 @@ export function getPlane(x, y, subDivFactor) {
     return plane;
 }
 
-export function getHalfCylinder(width, height, depth) {
+export function getHalfCylinder(width, height, depth, openEnded = true) {
     const geometry = new THREE.CylinderGeometry(
         width / 2, // Radius oben (entspricht halber Hangar-Breite)
         width / 2, // Radius unten
         depth, // Die Länge des Hangars (Tiefe)
         32, // Segmente (glatter machen)
         height, // Höhe-Segmente
-        true, // Open-ended
+        openEnded, // Open-ended
         0, // Start-Winkel
         Math.PI // thetaLength: Math.PI sorgt für ein Halbrund!
     );
