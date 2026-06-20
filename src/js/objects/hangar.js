@@ -97,8 +97,15 @@ export function getBarrelRoof(width, height, depth) {
     map.repeat.set(4, 1);
     map.minFilter = THREE.NearestFilter;
 
+    const norm = getMaterial(ASSET_PATHS.ROOF_NORM);
+    norm.wrapS = THREE.RepeatWrapping;
+    norm.wrapT = THREE.RepeatWrapping;
+    norm.repeat.set(4, 1);
+    norm.minFilter = THREE.NearestFilter;
+
     const material = new THREE.MeshStandardMaterial({
         map: map,
+        normalMap: norm,
         side: THREE.DoubleSide,
         roughness: 1,
         metalness: 0.5,
@@ -108,6 +115,47 @@ export function getBarrelRoof(width, height, depth) {
     roof.rotation.z = Math.PI / 2;
 
     roof.castShadow = true;
+
+    const backGable = basicShape.getGableWall(width / 2, width - 15);
+    backGable.position.y = -CFG_HANGAR.LENGTH / 2;
+
+    backGable.rotation.x = Math.PI / 2;
+    backGable.rotation.z = Math.PI / 2;
+
+    const backMap = getMaterial(ASSET_PATHS.ROOF_DIFF);
+    backMap.wrapS = THREE.RepeatWrapping;
+    backMap.wrapT = THREE.RepeatWrapping;
+    // Stelle hier das Repeat ein, das FÜR DIE WAND passt (z.B. 1, 1 oder 2, 1)
+    backMap.repeat.set(2, 1);
+    backMap.minFilter = THREE.NearestFilter;
+
+    const backNorm = getMaterial(ASSET_PATHS.ROOF_NORM);
+    backNorm.wrapS = THREE.RepeatWrapping;
+    backNorm.wrapT = THREE.RepeatWrapping;
+    backNorm.repeat.set(2, 1);
+    backNorm.minFilter = THREE.NearestFilter;
+
+    const backWallMaterial = new THREE.MeshStandardMaterial({
+        map: backMap,
+        side: THREE.DoubleSide,
+        roughness: 1,
+        metalness: 0.5,
+        normalMap: norm,
+    });
+
+    backGable.castShadow = true;
+    backGable.material = backWallMaterial;
+
+    roof.add(backGable);
+
+    const frontGable = basicShape.getGableDoor(width / 2);
+
+    frontGable.position.y = CFG_HANGAR.LENGTH / 2;
+
+    frontGable.castShadow = true;
+    frontGable.material = backWallMaterial;
+
+    roof.add(frontGable);
 
     return roof;
 }
