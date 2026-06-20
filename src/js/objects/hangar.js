@@ -58,8 +58,8 @@ function createWallMaterial(repeat = [1, 1]) {
 function getWall(wallLength, rotationDir) {
     const wall = basicShape.getCube(wallLength, CFG_HANGAR.WALL_WIDTH, CFG_HANGAR.WALL_HEIGHT, 256);
 
-    const repeatFront = [2, 1];
-    const repeatSide = [wallLength / 5, 1];
+    const repeatFront = [CFG_HANGAR.WALL_HEIGHT / 2, 1];
+    const repeatSide = [wallLength / 5, 2];
     const repeatTop = [10, 1];
 
     const materials = [
@@ -148,16 +148,46 @@ export function getBarrelRoof(width, height, depth) {
 
     roof.add(backGable);
 
-    const frontGable = basicShape.getGableDoor(width / 2);
-
+    const frontGable = basicShape.getGableWall(width / 2, width - 15);
     frontGable.position.y = CFG_HANGAR.LENGTH / 2;
+
+    frontGable.rotation.x = Math.PI / 2;
+    frontGable.rotation.z = Math.PI / 2;
 
     frontGable.castShadow = true;
     frontGable.material = backWallMaterial;
-
     roof.add(frontGable);
 
     return roof;
+}
+
+function getDoor() {
+    const door = basicShape.getCube(
+        CFG_HANGAR.WIDTH / 2,
+        CFG_HANGAR.WALL_HEIGHT + CFG_HANGAR.FOUNDATION_HEIGHT,
+        0.3,
+        126
+    );
+
+    const doorMap = getMaterial(ASSET_PATHS.DOOR_DIFF);
+    doorMap.wrapS = THREE.RepeatWrapping;
+    doorMap.wrapT = THREE.RepeatWrapping;
+    // Stelle hier das Repeat ein, das FÜR DIE WAND passt (z.B. 1, 1 oder 2, 1)
+    doorMap.repeat.set(15, 5);
+    doorMap.minFilter = THREE.NearestFilter;
+
+    const doorMaterial = new THREE.MeshStandardMaterial({
+        map: doorMap,
+        side: THREE.DoubleSide,
+        roughness: 1,
+        metalness: 0.5,
+    });
+
+    door.material = doorMaterial;
+
+    door.castShadow = true;
+
+    return door;
 }
 
 export function getHangar() {
@@ -208,9 +238,29 @@ export function getHangar() {
 
     hangar.add(roof);
 
-    const spot = getSpotLightSource(1, '#fcd8a6', hangar, 0, Math.PI / 3, 0);
-    spot.position.set(0, 14, 0);
+    const spot = getSpotLightSource(5, '#fcd8a6', hangar, 0, Math.PI / 2.5, 1);
+    spot.position.set(0, 9, 0);
     hangar.add(spot);
+
+    const doorLeft = getDoor();
+    doorLeft.position.set(
+        -CFG_HANGAR.WIDTH / 2 - 2.7,
+        CFG_HANGAR.WALL_HEIGHT / 2,
+        -CFG_HANGAR.LENGTH / 4
+    );
+    doorLeft.rotation.y = Math.PI / 2;
+
+    hangar.add(doorLeft);
+
+    const doorRight = getDoor();
+    doorRight.position.set(
+        -CFG_HANGAR.WIDTH / 2 - 2.7,
+        CFG_HANGAR.WALL_HEIGHT / 2,
+        CFG_HANGAR.LENGTH / 4
+    );
+    doorRight.rotation.y = Math.PI / 2;
+
+    hangar.add(doorRight);
 
     return hangar;
 }

@@ -7,12 +7,12 @@ export const WORLD_CONFIG = {
         POS_Y: 0,
         POS_Z: 0,
         WALL_WIDTH: 1,
-        WALL_HEIGHT: 2,
+        WALL_HEIGHT: 7,
     },
     SCENE: {
         SIZE: 150,
         DISP_FACT: 1.5,
-        SUN_INTENSITY: 2,
+        SUN_INTENSITY: 1.5,
     },
 
     CAMERA: {
