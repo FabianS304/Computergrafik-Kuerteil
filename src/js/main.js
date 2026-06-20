@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', main);
 
 function main() {
     const isDebug = flagReader.isDebug();
-    const isStats = flagReader.isStats();
+    const isAxis = flagReader.isAxis();
     const canvas = document.querySelector('#c');
 
     if (!canvas) {
@@ -39,12 +39,14 @@ function main() {
     render();
 
     function render() {
-        cameraTrackball.update(clock.getDelta());
-        if (isStats && app.stats) {
+        const delta = clock.getDelta();
+
+        cameraTrackball.update(delta);
+        if (isDebug && app.stats) {
             app.stats.update();
         }
 
-        if (isDebug) {
+        if (isAxis) {
             app.scene.traverse((node) => {
                 if (node.isMesh || node.isGroup) {
                     // X = RED, Y = GREEN, Z = BLUE
@@ -54,8 +56,12 @@ function main() {
             });
             app.stats.update();
         }
+        if (globalThis.airplaneController) {
+            globalThis.airplaneController.update();
+        }
 
         requestAnimationFrame(render);
         app.renderer.render(app.scene, app.camera);
     }
 }
+

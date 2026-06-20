@@ -9,6 +9,6 @@ export function isDebug() {
     return new URLSearchParams(globalThis.location.search).get('debug') === 'true';
 }
 
-export function isStats() {
-    return new URLSearchParams(globalThis.location.search).get('stats') === 'true';
+export function isAxis() {
+    return new URLSearchParams(globalThis.location.search).get('axis') === 'true';
 }

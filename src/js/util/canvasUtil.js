@@ -42,7 +42,7 @@ export function initCamera(canvas) {
         nearPlane,
         farPlane
     );
-    camera.position.set(50, 0, 10);
+    camera.position.set(-15, 5, 7);
 
     return camera;
 }
