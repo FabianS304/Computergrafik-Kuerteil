@@ -8,8 +8,6 @@ export const ASSET_PATHS = Object.freeze({
     GROUND_ROUGH: '/src/assets/rocky_terrain_02_1k.blend/textures/rocky_terrain_02_rough_1k.png',
     GROUND_SPEC: '/src/assets/rocky_terrain_02_1k.blend/textures/rocky_terrain_02_spec_1k.png',
 
-    SCENE_BG: '/src/assets/grasslands_sunset_1k.hdr',
-
     FLOOR_DIFF:
         '/src/assets/concrete_floor_worn_001_1k.blend/textures/concrete_floor_worn_001_diff_1k.jpg',
     FLOOR_DISP:
@@ -24,6 +22,8 @@ export const ASSET_PATHS = Object.freeze({
     WALL_NORM: '/src/assets/damaged_plaster_1k.blend/textures/damaged_plaster_norm_1k.png',
     WALL_ROUGH: '/src/assets/damaged_plaster_1k.blend/textures/damaged_plaster_rough_1k.png',
     ROOF_DIFF: '/src/assets/corrugated_iron_03_1k.blend/textures/corrugated_iron_03_diff_1k.jpg',
+
+    JETPLANE: '/src/assets/f_16_d_block_70__animations__pilot_-_design_3.glb',
 });
 
 export default ASSET_PATHS;
