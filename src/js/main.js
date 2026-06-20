@@ -39,7 +39,9 @@ function main() {
     render();
 
     function render() {
-        cameraTrackball.update(clock.getDelta());
+        const delta = clock.getDelta();
+
+        cameraTrackball.update(delta);
         if (isDebug && app.stats) {
             app.stats.update();
         }
@@ -54,8 +56,12 @@ function main() {
             });
             app.stats.update();
         }
+        if (globalThis.airplaneController) {
+            globalThis.airplaneController.update();
+        }
 
         requestAnimationFrame(render);
         app.renderer.render(app.scene, app.camera);
     }
 }
+
