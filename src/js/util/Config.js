@@ -12,7 +12,7 @@ export const WORLD_CONFIG = {
     SCENE: {
         SIZE: 150,
         DISP_FACT: 1.5,
-        SUN_INTENSITY: 3.5,
+        SUN_INTENSITY: 1.5,
     },
 
     CAMERA: {

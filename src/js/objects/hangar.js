@@ -25,16 +25,19 @@ function getFoundation() {
 
     const material = new THREE.MeshStandardMaterial({
         map: map,
-        side: THREE.DoubleSide,
+        side: THREE.FrontSide,
         normalMap: planeNorm,
         roughness: 0.8,
     });
 
     cube.material = material;
-
     // Positionierung: Wenn die Höhe FOUNDATION_HEIGHT ist,
     // dann ist die Oberfläche bei FOUNDATION_HEIGHT / 2 (da Box zentriert ist)
     cube.position.set(CFG_HANGAR.POS_X, CFG_HANGAR.POS_Y , CFG_HANGAR.POS_Z);
+
+
+    cube.receiveShadow = true;
+    cube.castShadow = true;
     return cube;
 }
 
@@ -42,8 +45,8 @@ function createWallMaterial(repeat = [1,1]) {
     return new THREE.MeshStandardMaterial({
         map: getConfiguredTexture(ASSET_PATHS.WALL_DIFF, repeat[0], repeat[1]),
         normalMap: getConfiguredTexture(ASSET_PATHS.WALL_NORM, repeat[0], repeat[1]),
-        side: THREE.DoubleSide,
-        roughness: 5,
+        side: THREE.FrontSide,
+        roughness: 1,
     });
 }
 
@@ -73,6 +76,9 @@ function getWall(wallLength, rotationDir) {
         wall.rotation.z = Math.PI / 2;
     }
 
+    wall.receiveShadow = true;
+    wall.castShadow = true;
+    
     return wall;
 }
 
@@ -90,17 +96,16 @@ export function getBarrelRoof(width, height, depth) {
      const material = new THREE.MeshStandardMaterial({
         map: map,
         side: THREE.DoubleSide,
-        roughness: 0.8,
+        roughness: 1,
+        metalness: 0.5
     });
 
 
     roof.material = material;
-
-    
-    // 2. Ausrichtung: 
-    // Cylinder liegt standardmäßig auf der Y-Achse, wir müssen ihn kippen
     roof.rotation.z = Math.PI / 2;
- 
+
+    roof.castShadow = true;
+
     return roof;
 }
 

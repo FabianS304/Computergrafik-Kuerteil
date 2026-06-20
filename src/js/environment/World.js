@@ -23,7 +23,7 @@ export function getWorldPlane(gl, x = 150, y = 150) {
         map: map,
         side: THREE.DoubleSide,
         normalMap: planeNorm,
-        roughness: 2,
+        roughness: 1,
     });
 
     const plane = getPlane(x,y,256);
