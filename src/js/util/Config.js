@@ -1,10 +1,10 @@
 export const WORLD_CONFIG = {
-    Hangar: {
-        X: 30,
-        Y: 25,
-        Z: 0.5,
+    HANGAR: {
+        LENGTH: 30,
+        WIDTH: 25,
+        FOUNDATION_HEIGHT: 0.5,
         POS_X: 0,
-        POS_Y: -0.5,
+        POS_Y: 0,
         POS_Z: 0,
         WALL_WIDTH: 1,
         WALL_HEIGHT: 2,

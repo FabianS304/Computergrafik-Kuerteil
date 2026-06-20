@@ -5,6 +5,7 @@ import { getHangar } from '../objects/Hangar.js';
 import { getF16Jet } from '../objects/F16Jet.js';
 
 const CFG_SCENE = cfg.WORLD_CONFIG.SCENE;
+const CFG_HANGAR = cfg.WORLD_CONFIG.HANGAR;
 export function initDefaultScene(isDebug, gl) {
     const scene = new THREE.Scene();
 
@@ -40,11 +41,29 @@ export function initDefaultScene(isDebug, gl) {
 
     getF16Jet((jet) => {
         scene.add(jet);
-        // Hier kannst du auch weitere Anpassungen vornehmen,
-        // z.B. Positionierung oder Animation starten
-        jet.position.set(0, 1, 0);
-        jet.rotation.x = MATH.PI / 2;
-    });
+        if (isDebug) {
+            jet.traverse((node) => {
+                const keywords = ['Parent', 'Flap', 'Rudder', 'Stab', 'Canopy', 'Gear', 'Pilot'];
 
+                if (keywords.some((k) => node.name.includes(k))) {
+                    console.log('Haupt-Objekt gefunden:', node.name);
+                }
+            });
+        }
+
+        const canopy = jet.getObjectByName('Canopy_Parent_F16D_86');
+
+        if (canopy) {
+            // Kippe die Haube nach oben (Winkel nach Bedarf anpassen)
+
+            canopy.rotation.x = -Math.PI / 6;
+        }
+
+        const box = new THREE.Box3().setFromObject(jet);
+
+        // exakt auf der bodenOberkante liegt.
+        jet.position.y = CFG_HANGAR.FOUNDATION_HEIGHT / 2 - box.min.y;
+        jet.rotation.y = -Math.PI / 2;
+    });
     return scene;
 }

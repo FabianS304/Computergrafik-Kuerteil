@@ -1,5 +1,6 @@
-export function getCube(x, y, z, subDivFactor, shadowOpt = [true, true]) {
-    const geometry = new THREE.BoxGeometry(x, y, z, subDivFactor, subDivFactor);
+export function getCube(width, height, depth, subDivFactor, shadowOpt = [true, true]) {
+    console.log(width, height, depth);
+    const geometry = new THREE.BoxGeometry(width, height, depth, subDivFactor, subDivFactor);
 
     const cube = new THREE.Mesh(geometry);
     cube.reciveShadow = shadowOpt[0];

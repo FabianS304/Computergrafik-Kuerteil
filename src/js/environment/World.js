@@ -19,19 +19,11 @@ export function getWorldPlane(gl, x = 150, y = 150) {
     planeNorm.minFilter = THREE.NearestFilter;
     planeNorm.repeat.set(4, 4);
 
-    const heightMap = getMaterial(ASSET_PATHS.GROUND_DISP);
-    heightMap.wrapS = THREE.RepeatWrapping;
-    heightMap.wrapT = THREE.RepeatWrapping;
-    heightMap.minFilter = THREE.NearestFilter;
-    heightMap.repeat.set(4, 4);
-
     const material = new THREE.MeshStandardMaterial({
         map: map,
         side: THREE.DoubleSide,
         normalMap: planeNorm,
-        roughness: 1,
-        displacementMap: heightMap,
-        displacementScale: CFG_SCENE.DISP_FACT,
+        roughness: 2,
     });
 
     const plane = getPlane(x,y,256);

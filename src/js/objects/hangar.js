@@ -6,10 +6,10 @@ import { WORLD_CONFIG } from '../util/Config.js';
  * Baseplate
  */
 
-const CFG_HANGAR = WORLD_CONFIG.Hangar;
+const CFG_HANGAR = WORLD_CONFIG.HANGAR;
 
 function getFoundation() {
-    const cube = basicShape.getCube(CFG_HANGAR.X, CFG_HANGAR.Z, CFG_HANGAR.Y, 150);
+    const cube = basicShape.getCube(CFG_HANGAR.LENGTH, CFG_HANGAR.FOUNDATION_HEIGHT, CFG_HANGAR.WIDTH, 150);
 
     const map = getMaterial(ASSET_PATHS.FLOOR_DIFF);
     map.wrapS = THREE.RepeatWrapping;
@@ -31,8 +31,10 @@ function getFoundation() {
     });
 
     cube.material = material;
-    cube.position.set(CFG_HANGAR.POS_X, CFG_HANGAR.POS_Y, CFG_HANGAR.POS_Z);
 
+    // Positionierung: Wenn die Höhe FOUNDATION_HEIGHT ist,
+    // dann ist die Oberfläche bei FOUNDATION_HEIGHT / 2 (da Box zentriert ist)
+    cube.position.set(CFG_HANGAR.POS_X, CFG_HANGAR.POS_Y , CFG_HANGAR.POS_Z);
     return cube;
 }
 
@@ -70,8 +72,6 @@ function getWall(wallLength, rotationDir) {
         wall.rotation.x = Math.PI / 2;
         wall.rotation.z = Math.PI / 2;
     }
-    //Durch einen AchorPoint ersetzen!
-    wall.position.y = CFG_HANGAR.Z * 2 + 0.25;
 
     return wall;
 }
@@ -100,32 +100,34 @@ export function getBarrelRoof(width, height, depth) {
     // 2. Ausrichtung: 
     // Cylinder liegt standardmäßig auf der Y-Achse, wir müssen ihn kippen
     roof.rotation.z = Math.PI / 2;
-    roof.rotation.X = Math.PI / 2;
-    roof.position.y = CFG_HANGAR.WALL_HEIGHT
+ 
     return roof;
 }
 
 export function getHangar() {
     const hangar = getFoundation(); // Das ist unser Fundament-Mesh
 
+     
+
     // Liste der Wände, die wir hinzufügen wollen
     const walls = [
         {
-            length: CFG_HANGAR.X,
+            length: CFG_HANGAR.LENGTH,
             rotationDir: 'x',
-            zPos: CFG_HANGAR.X / 2 - CFG_HANGAR.WALL_WIDTH - 2,
+            zPos: CFG_HANGAR.LENGTH / 2 - CFG_HANGAR.WALL_WIDTH - 2,
         },
         {
-            length: CFG_HANGAR.X,
+            length: CFG_HANGAR.LENGTH,
             rotationDir: 'x',
-            zPos: -CFG_HANGAR.X / 2 + CFG_HANGAR.WALL_WIDTH + 2,
+            zPos: -CFG_HANGAR.LENGTH / 2 + CFG_HANGAR.WALL_WIDTH + 2,
         },
         {
-            length: CFG_HANGAR.Y - CFG_HANGAR.WALL_WIDTH * 2,
+            length: CFG_HANGAR.WIDTH - CFG_HANGAR.WALL_WIDTH * 2,
             rotationDir: 'y',
-            zPos: -CFG_HANGAR.X / 2 + CFG_HANGAR.WALL_WIDTH + 2,
+            zPos: -CFG_HANGAR.LENGTH / 2 + CFG_HANGAR.WALL_WIDTH + 2,
         },
     ];
+
 
     // Schleife über alle Wände
     for (const element of walls) {
@@ -134,16 +136,26 @@ export function getHangar() {
 
         // Positionierung in Z (bleibt wie vorher)
         wall.position.z = wallData.zPos;
+        //Positioning the Walls ontop of the foundation
+        const box = new THREE.Box3().setFromObject(wall);
+        wall.position.y = CFG_HANGAR.FOUNDATION_HEIGHT / 2 - box.min.y;
 
         if (wallData.rotationDir != 'x') {
-            wall.position.x = CFG_HANGAR.X / 2 - 0.5;
+            wall.position.x = CFG_HANGAR.LENGTH / 2 - 0.5;
             wall.position.z = 0;
         }
+
 
         // Zur Szene hinzufügen
         hangar.add(wall);
     }
 
-    hangar.add(getBarrelRoof(CFG_HANGAR.Y, 2, CFG_HANGAR.X));
+    const roof = getBarrelRoof(CFG_HANGAR.WIDTH, 5, CFG_HANGAR.LENGTH);
+    const box = new THREE.Box3().setFromObject(roof);
+    roof.position.y = CFG_HANGAR.FOUNDATION_HEIGHT / 2 + CFG_HANGAR.WALL_HEIGHT - box.min.y;
+
+    hangar.add(roof);
+
     return hangar;
 }
+
