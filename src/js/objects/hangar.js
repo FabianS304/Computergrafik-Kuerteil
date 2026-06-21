@@ -125,14 +125,13 @@ export function getBarrelRoof(width, height, depth) {
     const backMap = getMaterial(ASSET_PATHS.ROOF_DIFF);
     backMap.wrapS = THREE.RepeatWrapping;
     backMap.wrapT = THREE.RepeatWrapping;
-    // Stelle hier das Repeat ein, das FÜR DIE WAND passt (z.B. 1, 1 oder 2, 1)
-    backMap.repeat.set(2, 1);
+    backMap.repeat.set(2, 2);
     backMap.minFilter = THREE.NearestFilter;
 
     const backNorm = getMaterial(ASSET_PATHS.ROOF_NORM);
     backNorm.wrapS = THREE.RepeatWrapping;
     backNorm.wrapT = THREE.RepeatWrapping;
-    backNorm.repeat.set(2, 1);
+    backNorm.repeat.set(2, 2);
     backNorm.minFilter = THREE.NearestFilter;
 
     const backWallMaterial = new THREE.MeshStandardMaterial({
@@ -173,7 +172,7 @@ function getDoor() {
     doorMap.wrapS = THREE.RepeatWrapping;
     doorMap.wrapT = THREE.RepeatWrapping;
     // Stelle hier das Repeat ein, das FÜR DIE WAND passt (z.B. 1, 1 oder 2, 1)
-    doorMap.repeat.set(15, 5);
+    doorMap.repeat.set(5, 5);
     doorMap.minFilter = THREE.NearestFilter;
 
     const doorMaterial = new THREE.MeshStandardMaterial({
