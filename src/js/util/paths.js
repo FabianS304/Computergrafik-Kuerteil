@@ -21,8 +21,12 @@ export const ASSET_PATHS = Object.freeze({
     WALL_DISP: '/src/assets/damaged_plaster_1k.blend/textures/damaged_plaster_disp_1k.png',
     WALL_NORM: '/src/assets/damaged_plaster_1k.blend/textures/damaged_plaster_norm_1k.png',
     WALL_ROUGH: '/src/assets/damaged_plaster_1k.blend/textures/damaged_plaster_rough_1k.png',
-    ROOF_DIFF: '/src/assets/corrugated_iron_03_1k.blend/textures/corrugated_iron_03_diff_1k.jpg',
 
+    ROOF_DIFF: '/src/assets/corrugated_iron_03_1k.blend/textures/corrugated_iron_03_diff_1k.jpg',
+    ROOF_NORM: '/src/assets/corrugated_iron_03_1k.blend/textures/corrugated_iron_03_norm_1k.png',
+    ROOF_DISP: '/src/assets/corrugated_iron_03_1k.blend/textures/corrugated_iron_03_disp_1k.png',
+
+    DOOR_DIFF: '/src/assets/green_metal_rust_1k.blend/textures/green_metal_rust_diff_1k.jpg',
     JETPLANE: '/src/assets/F16.glb',
 });
 

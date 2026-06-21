@@ -4,7 +4,13 @@
  - https://polyhaven.com/ 
 ### Model of the F16
  License Notice: 
- https://sketchfab.com/3d-models/fa-18c-hornet-1cc5824033d84185b9bf8b222d9bb068
+https://sketchfab.com/3d-models/f-16-fighting-falcon-fighter-jet-free-f0b00989e5634764848ef2c235c64db5
 
- ## Work- Documentation
- Please note, that while i have been stated the Timespan of each Project phase, it does not reflect my time Spent on the project. I still work for 20 Hours a week and have other courses, each as time consuming as this course. It is ment to be an orientation and documentation threw the implementing process. 
+
+ ## Technisch-Aerodynamische Dokumentationen:
+ - https://bpb-us-e2.wpmucdn.com/sites.uci.edu/dist/2/1678/files/2014/11/MSthesis_AFarre07.pdf
+
+ ## Andere Dokumentationen: 
+ - https://www.digitalcombatsimulator.com/upload/iblock/9e4/68pb1zcc05xx6s3ajbdpb0rkyjjrfh0f/DCS%20F-16C%20Early%20Access%20Guide%20DE.pdf
+ - https://chucksguides.com/aircraft/dcs/f-16cm/ 
+    (page 14, used in the Hangar as a poster, otherwise mostly for visual references while cutting up the Model in Blender and modelating into the scene)

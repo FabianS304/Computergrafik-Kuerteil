@@ -58,8 +58,8 @@ function createWallMaterial(repeat = [1, 1]) {
 function getWall(wallLength, rotationDir) {
     const wall = basicShape.getCube(wallLength, CFG_HANGAR.WALL_WIDTH, CFG_HANGAR.WALL_HEIGHT, 256);
 
-    const repeatFront = [2, 1];
-    const repeatSide = [wallLength / 5, 1];
+    const repeatFront = [CFG_HANGAR.WALL_HEIGHT / 2, 1];
+    const repeatSide = [wallLength / 5, 2];
     const repeatTop = [10, 1];
 
     const materials = [
@@ -97,8 +97,15 @@ export function getBarrelRoof(width, height, depth) {
     map.repeat.set(4, 1);
     map.minFilter = THREE.NearestFilter;
 
+    const norm = getMaterial(ASSET_PATHS.ROOF_NORM);
+    norm.wrapS = THREE.RepeatWrapping;
+    norm.wrapT = THREE.RepeatWrapping;
+    norm.repeat.set(4, 1);
+    norm.minFilter = THREE.NearestFilter;
+
     const material = new THREE.MeshStandardMaterial({
         map: map,
+        normalMap: norm,
         side: THREE.DoubleSide,
         roughness: 1,
         metalness: 0.5,
@@ -109,7 +116,77 @@ export function getBarrelRoof(width, height, depth) {
 
     roof.castShadow = true;
 
+    const backGable = basicShape.getGableWall(width / 2, width - 15);
+    backGable.position.y = -CFG_HANGAR.LENGTH / 2;
+
+    backGable.rotation.x = Math.PI / 2;
+    backGable.rotation.z = Math.PI / 2;
+
+    const backMap = getMaterial(ASSET_PATHS.ROOF_DIFF);
+    backMap.wrapS = THREE.RepeatWrapping;
+    backMap.wrapT = THREE.RepeatWrapping;
+    backMap.repeat.set(2, 2);
+    backMap.minFilter = THREE.NearestFilter;
+
+    const backNorm = getMaterial(ASSET_PATHS.ROOF_NORM);
+    backNorm.wrapS = THREE.RepeatWrapping;
+    backNorm.wrapT = THREE.RepeatWrapping;
+    backNorm.repeat.set(2, 2);
+    backNorm.minFilter = THREE.NearestFilter;
+
+    const backWallMaterial = new THREE.MeshStandardMaterial({
+        map: backMap,
+        side: THREE.DoubleSide,
+        roughness: 1,
+        metalness: 0.5,
+        normalMap: norm,
+    });
+
+    backGable.castShadow = true;
+    backGable.material = backWallMaterial;
+
+    roof.add(backGable);
+
+    const frontGable = basicShape.getGableWall(width / 2, width - 15);
+    frontGable.position.y = CFG_HANGAR.LENGTH / 2;
+
+    frontGable.rotation.x = Math.PI / 2;
+    frontGable.rotation.z = Math.PI / 2;
+
+    frontGable.castShadow = true;
+    frontGable.material = backWallMaterial;
+    roof.add(frontGable);
+
     return roof;
+}
+
+function getDoor() {
+    const door = basicShape.getCube(
+        CFG_HANGAR.WIDTH / 2,
+        CFG_HANGAR.WALL_HEIGHT + CFG_HANGAR.FOUNDATION_HEIGHT,
+        0.3,
+        126
+    );
+
+    const doorMap = getMaterial(ASSET_PATHS.DOOR_DIFF);
+    doorMap.wrapS = THREE.RepeatWrapping;
+    doorMap.wrapT = THREE.RepeatWrapping;
+    // Stelle hier das Repeat ein, das FÜR DIE WAND passt (z.B. 1, 1 oder 2, 1)
+    doorMap.repeat.set(5, 5);
+    doorMap.minFilter = THREE.NearestFilter;
+
+    const doorMaterial = new THREE.MeshStandardMaterial({
+        map: doorMap,
+        side: THREE.DoubleSide,
+        roughness: 1,
+        metalness: 0.5,
+    });
+
+    door.material = doorMaterial;
+
+    door.castShadow = true;
+
+    return door;
 }
 
 export function getHangar() {
@@ -160,9 +237,29 @@ export function getHangar() {
 
     hangar.add(roof);
 
-    const spot = getSpotLightSource(1, '#fcd8a6', hangar, 0, Math.PI / 3, 0);
-    spot.position.set(0, 14, 0);
+    const spot = getSpotLightSource(5, '#fcd8a6', hangar, 0, Math.PI / 2.5, 1);
+    spot.position.set(0, 9, 0);
     hangar.add(spot);
+
+    const doorLeft = getDoor();
+    doorLeft.position.set(
+        -CFG_HANGAR.WIDTH / 2 - 2.7,
+        CFG_HANGAR.WALL_HEIGHT / 2,
+        -CFG_HANGAR.LENGTH / 4
+    );
+    doorLeft.rotation.y = Math.PI / 2;
+
+    hangar.add(doorLeft);
+
+    const doorRight = getDoor();
+    doorRight.position.set(
+        -CFG_HANGAR.WIDTH / 2 - 2.7,
+        CFG_HANGAR.WALL_HEIGHT / 2,
+        CFG_HANGAR.LENGTH / 4
+    );
+    doorRight.rotation.y = Math.PI / 2;
+
+    hangar.add(doorRight);
 
     return hangar;
 }
