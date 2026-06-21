@@ -1,7 +1,6 @@
-import ASSET_PATHS from '../util/paths.js';
+import ASSET_PATHS from './paths.js';
 
-export function getAirplane(callback) {
-    const path = ASSET_PATHS.JETPLANE;
+export function getGLBModel(callback, path) {
     console.log('Versuche Modell zu laden von:', path);
 
     // Wir prüfen, ob GLTFLoader global verfügbar ist
@@ -15,11 +14,11 @@ export function getAirplane(callback) {
 
     const loader = new LoaderClass();
 
-     loader.load(
+    loader.load(
         path,
         (gltf) => {
             console.log('Modell erfolgreich geladen!');
-            callback(gltf); 
+            callback(gltf);
         },
         (xhr) => {
             console.log((xhr.loaded / xhr.total) * 100 + '% geladen');

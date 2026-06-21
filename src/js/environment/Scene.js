@@ -2,8 +2,9 @@ import { getDirectionalLightSource, getSpotLightSource } from './Lighting.js';
 import * as cfg from '../util/Config.js';
 import { getWorldPlane } from './World.js';
 import { getHangar } from '../objects/Hangar.js';
-import { getAirplane } from '../objects/Airplane.js';
+import { getGLBModel } from '../util/ModelLoader.js';
 import { AirplaneController } from '../control/AirplaneController.js';
+import ASSET_PATHS from '../util/Paths.js';
 const CFG_SCENE = cfg.WORLD_CONFIG.SCENE;
 const CFG_HANGAR = cfg.WORLD_CONFIG.HANGAR;
 export function initDefaultScene(isDebug, gl) {
@@ -41,9 +42,9 @@ export function initDefaultScene(isDebug, gl) {
     }
     scene.add(hangar);
 
-    getAirplane((gltf) => {
+    getGLBModel((gltf) => {
         const jet = gltf.scene;
-        jet.scale.set(0.11, 0.11, 0.11);
+        jet.scale.set(0.1, 0.1, 0.1);
 
         jet.traverse((node) => {
             node.castShadow = true;
@@ -62,8 +63,7 @@ export function initDefaultScene(isDebug, gl) {
 
         scene.add(jet);
         globalThis.airplaneController = new AirplaneController(jet);
-    });
+    }, ASSET_PATHS.JETPLANE);
 
-    
     return scene;
 }
