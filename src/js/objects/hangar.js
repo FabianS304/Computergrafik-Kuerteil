@@ -2,7 +2,7 @@ import ASSET_PATHS from '../util/Paths.js';
 import * as basicShape from './BasicShapes.js';
 import { getMaterial, getConfiguredTexture } from '../util/TextureLoader.js';
 import { WORLD_CONFIG } from '../util/Config.js';
-import { getSpotLightSource } from '../environment/Lighting.js';
+import { getSpotLightSource, getWarningLight } from '../environment/Lighting.js';
 import { getGLBModel } from '../util/ModelLoader.js';
 /**
  * Baseplate
@@ -238,9 +238,18 @@ export function getHangar() {
 
     hangar.add(roof);
 
+    //Licht
     const spot = getSpotLightSource(5, '#fcd8a6', hangar, 0, Math.PI / 2.5, 1);
     spot.position.set(0, 10, 0);
     hangar.add(spot);
+
+    let beacon1 = getWarningLight(2, '#ff8800', -1, 0, 0.5, 0.5);
+    beacon1.position.set(8, 10, 0);
+    hangar.add(beacon1);
+
+    let beacon2 = getWarningLight(2, '#ff8800', 1, 0, 0.5, 0.5);
+    beacon2.position.set(-8, 10, 0);
+    hangar.add(beacon2);
 
     const doorLeft = getDoor();
     doorLeft.position.set(
