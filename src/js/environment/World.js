@@ -1,5 +1,5 @@
-import { getPlane } from "../objects/BasicShapes.js";
-import { getMaterial } from "../util/TextureLoader.js";
+import { getPlane } from '../objects/BasicShapes.js';
+import { getMaterial } from '../util/TextureLoader.js';
 import ASSET_PATHS from '../util/Paths.js';
 import * as cfg from '../util/Config.js';
 
@@ -26,7 +26,7 @@ export function getWorldPlane(gl, x = 150, y = 150) {
         roughness: 1,
     });
 
-    const plane = getPlane(x,y,256);
+    const plane = getPlane(x, y, 256);
     plane.material = material;
     plane.receiveShadow = true;
 

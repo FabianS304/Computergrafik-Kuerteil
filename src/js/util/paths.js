@@ -29,19 +29,26 @@ export const ASSET_PATHS = Object.freeze({
 
     DOOR_DIFF: '/src/assets/green_metal_rust_1k.blend/textures/green_metal_rust_diff_1k.jpg',
 
+    PATHWAY_DIFF: '/src/assets/concrete_tiles_02_1k.blend/textures/concrete_tiles_02_diff_1k.jpg',
+    PATHWAY_NORM: '/src/assets/concrete_tiles_02_1k.blend/textures/RGB.png',
+
     //props and other assets
     JETPLANE: '/src/assets/F16.glb',
     POSTER: '/src/assets/objects/Poster.png',
     METAL_DESK: '/src/assets/objects/metal_office_desk_1k.blend/metal_office_desk_1k.glb',
     COFFEE_CART: '/src/assets/objects/CoffeeCart_01_1k.blend/CoffeeCart_01_1k.glb',
     ELECTRIC_POWER_BOX: '/src/assets/objects/power_box_01_1k.blend/power_box_01_1k.glb',
-    DARTBOARD:
-        '/src/assets/objects/dartboard_1k.blend src/assets/objects/dartboard_1k.blend/dartboard_1k.glb',
+    DARTBOARD: '/src/assets/objects/dartboard_1k.blend/dartboard_1k.glb',
     WOODEN_CHAIR:
         '/src/assets/objects/painted_wooden_chair_02_1k.blend/painted_wooden_chair_02_1k.glb',
     METAL_RACK_1: '/src/assets/objects/worn_metal_rack_1k.blend/worn_metal_rack_1k.glb',
     FIRE_ALARM: '/src/assets/objects/fire_alarm_1k.blend/fire_alarm_1k.glb',
+    AIRPORT_TOWER: '/src/assets/objects/air_traffic_control_tower.glb',
+    HANGING_LIGHT: '/src/assets/objects/caged_hanging_light_1k.blend/caged_hanging_light_1k.glb',
+
+    //Nature
+    TREE: '/src/assets/objects/fir_sapling_medium_1k.gltf/fir_sapling_medium_1k.gltf',
+    FORREST: '/src/assets/objects/nature/Forest/Forest.glb',
 });
 
 export default ASSET_PATHS;
-

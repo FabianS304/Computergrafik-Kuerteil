@@ -10,7 +10,7 @@ export const WORLD_CONFIG = {
         WALL_HEIGHT: 7,
     },
     SCENE: {
-        SIZE: 150,
+        SIZE: 250,
         DISP_FACT: 1.5,
         SUN_INTENSITY: 3,
     },

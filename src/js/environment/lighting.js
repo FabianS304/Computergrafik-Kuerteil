@@ -1,6 +1,8 @@
 /**
  * Used for anything with lighting
  */
+import ASSET_PATHS from '../util/paths.js';
+import { getGLBModel } from '../util/ModelLoader.js';
 
 export function getDirectionalLightSource(intensity, color = 0xffffff) {
     const light = new THREE.DirectionalLight(color, intensity);
@@ -25,7 +27,6 @@ export function getSpotLightSource(
     }
 
     light.castShadow = true;
-    light.receiveShadow = true;
 
     // SCHATTEN-QUALITÄT ERHÖHEN
     light.shadow.mapSize.width = 2048; // Standard ist oft 512
@@ -33,7 +34,8 @@ export function getSpotLightSource(
 
     // Reichweite anpassen (WICHTIG!)
     light.shadow.camera.near = 0.5;
-    light.shadow.camera.far = 500;
+    light.shadow.camera.far = 750;
+    light.castShadow = true;
 
     return light;
 }
@@ -78,4 +80,19 @@ export function getWarningLight(
 
     animate();
     return beacon;
+}
+
+export function getPathWayLight(color, x, z) {
+    let target = new THREE.Object3D();
+    target.position.set(x, z, 10);
+
+    let light = getSpotLightSource(1, color, target, 5, Math.PI / 2, 0.5);
+
+    getGLBModel((gltf) => {
+        const model = gltf.scene;
+        model.position.set(x, 0.002, z);
+        light.add(model);
+    }, ASSET_PATHS.FLOOR_LAMP);
+
+    return light;
 }

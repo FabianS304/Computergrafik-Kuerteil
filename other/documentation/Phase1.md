@@ -1,13 +1,14 @@
-# Phase 1: Project Setup & Asset Acquisition
-### Timespan: 07.06.2026 – 14.06.2026
+# Phase 1: Projekt-Setup & Asset-Beschaffung
+### Zeitraum: 07.06.2026 – 14.06.2026
 
-## Objectives
-- Infrastructure: Establish a clean, scalable repository and directory structure.
-- Asset Sourcing: Acquire high-quality, cost-effective, and open-source 3D models and PBR materials.
+## Ziele
+- Infrastruktur: Etablierung eines sauberen, skalierbaren Repositorys und einer festen Verzeichnisstruktur.
+- Asset-Beschaffung: Erwerb von qualitativ hochwertigen, kosteneffizienten und Open-Source 3D-Modellen sowie PBR-Materialien.
 
-## Implementation & Asset Acquisition
-I focused on acquiring assets from Poly Haven to ensure high visual fidelity. The selection criteria prioritized open-source licenses (CC0) and industry-standard material sets, allowing me to maintain a zero-budget project while relying on assets curated and trusted by professional 3D artists.
+## Umsetzung & Asset-Beschaffung
+Ich habe mich auf den Erwerb von Assets von Poly Haven konzentriert, um eine hohe visuelle Wiedergabetreue zu gewährleisten. Bei der Auswahl standen Open-Source-Lizenzen (CC0) und Industriestandard-Materialsets im Vordergrund, was es mir ermöglichte, ein Null-Budget-Projekt beizubehalten und gleichzeitig auf Assets zu setzen, die von professionellen 3D-Künstlern kuratiert und geschätzt werden.
 
-## Achievements
-- Asset Integration: Successfully identified and selected a high-detail F-16 3D model and comprehensive PBR material sets for the environment.
-- Project Architecture: Developed a structured repository and modular file directory to improve maintainability.
+## Erfolge
+- Asset-Integration: Erfolgreiche Identifizierung und Auswahl eines hochdetaillierten F-16 3D-Modells sowie umfassender PBR-Materialsets für die Umgebung.
+- Projektarchitektur: Entwicklung einer strukturierten Repository- und modularen Dateiverzeichnisstruktur zur Verbesserung der Wartbarkeit.
+
