@@ -1,12 +1,12 @@
-# Phase 2: Environment Development & Tooling
-### Timespan: 13.06.2026 – ongoing
+# Phase 2: Umgebungsentwicklung & Tooling
+### Zeitraum: 13.06.2026 – 01.07.2026
 
-## Objectives
-- Scene Construction: Design and implement the hangar environment using acquired assets.
-- Environmental Context: Expand the scene with supplementary objects and architectural elements to enhance immersion.
-- Workflow Optimization: Integrate advanced development tools to maintain high code quality and streamline the development lifecycle.
+## Ziele
+- Szenenaufbau: Entwurf und Umsetzung der Hangar-Umgebung unter Verwendung der beschafften Assets.
+- Kontext der Umgebung: Erweiterung der Szene mit ergänzenden Objekten und architektonischen Elementen zur Steigerung der Immersion.
+- Workflow-Optimierung: Integration fortschrittlicher Entwicklungstools, um eine hohe Codequalität beizubehalten und den Entwicklungslebenszyklus zu optimieren.
 
-## Methodology & Implementation
-- Scene Design: Construct the hangar scenery by integrating the assets sourced in Phase 1. I am currently curating additional props and structural elements that complement the hangar's industrial aesthetic.
-- Development Workflow: Establish a robust development environment by integrating npm. This involves configuring Prettier for automated code formatting and ESLint for static code analysis, ensuring logic consistency and adherence to best practices.
-- Tooling Expansion: Evaluate and implement further utility tools to improve productivity and maintain a clean, professional codebase throughout the project.
+## Methodik & Umsetzung
+- Szenendesign: Aufbau der Hangar-Kulisse durch Integration der in Phase 1 beschafften Assets. Ich kuratiere derzeit zusätzliche Requisiten und strukturelle Elemente, die die industrielle Ästhetik des Hangars ergänzen.
+- Entwicklungsworkflow: Aufbau einer robusten Entwicklungsumgebung durch die Integration von npm. Dies umfasst die Konfiguration von Prettier für eine automatisierte Code-Formatierung sowie von ESLint für die statische Code-Analyse, um logische Konsistenz und die Einhaltung von Best Practices sicherzustellen.
+- Erweiterung des Toolings: Evaluierung und Implementierung weiterer Hilfsprogramme, um die Produktivität zu steigern und während des gesamten Projekts eine saubere, professionelle Codebasis zu gewährleisten.

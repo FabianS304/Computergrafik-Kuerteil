@@ -1,7 +1,7 @@
 export const WORLD_CONFIG = {
     HANGAR: {
-        LENGTH: 30,
-        WIDTH: 25,
+        FOUNDATION_LENGTH: 30,
+        FOUNDATION_WIDTH: 25,
         FOUNDATION_HEIGHT: 0.5,
         POS_X: 0,
         POS_Y: 0,
@@ -10,9 +10,9 @@ export const WORLD_CONFIG = {
         WALL_HEIGHT: 7,
     },
     SCENE: {
-        SIZE: 150,
+        SIZE: 250,
         DISP_FACT: 1.5,
-        SUN_INTENSITY: 1.5,
+        SUN_INTENSITY: 3,
     },
 
     CAMERA: {

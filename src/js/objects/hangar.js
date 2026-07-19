@@ -2,18 +2,19 @@ import ASSET_PATHS from '../util/Paths.js';
 import * as basicShape from './BasicShapes.js';
 import { getMaterial, getConfiguredTexture } from '../util/TextureLoader.js';
 import { WORLD_CONFIG } from '../util/Config.js';
-import { getSpotLightSource } from '../environment/Lighting.js';
+import { getSpotLightSource, getWarningLight } from '../environment/Lighting.js';
+import { getGLBModel } from '../util/ModelLoader.js';
 /**
  * Baseplate
  */
 
 const CFG_HANGAR = WORLD_CONFIG.HANGAR;
 
-function getFoundation() {
+function getFoundation(x, y, z) {
     const cube = basicShape.getCube(
-        CFG_HANGAR.LENGTH,
+        CFG_HANGAR.FOUNDATION_LENGTH,
         CFG_HANGAR.FOUNDATION_HEIGHT,
-        CFG_HANGAR.WIDTH,
+        CFG_HANGAR.FOUNDATION_WIDTH,
         150
     );
 
@@ -39,7 +40,7 @@ function getFoundation() {
     cube.material = material;
     // Positionierung: Wenn die Höhe FOUNDATION_HEIGHT ist,
     // dann ist die Oberfläche bei FOUNDATION_HEIGHT / 2 (da Box zentriert ist)
-    cube.position.set(CFG_HANGAR.POS_X, CFG_HANGAR.POS_Y, CFG_HANGAR.POS_Z);
+    cube.position.set(x, y, z);
 
     cube.receiveShadow = true;
     cube.castShadow = true;
@@ -52,6 +53,7 @@ function createWallMaterial(repeat = [1, 1]) {
         normalMap: getConfiguredTexture(ASSET_PATHS.WALL_NORM, repeat[0], repeat[1]),
         side: THREE.FrontSide,
         roughness: 1,
+        transparrent: false,
     });
 }
 
@@ -109,6 +111,7 @@ export function getBarrelRoof(width, height, depth) {
         side: THREE.DoubleSide,
         roughness: 1,
         metalness: 0.5,
+        transparrent: false,
     });
 
     roof.material = material;
@@ -117,7 +120,7 @@ export function getBarrelRoof(width, height, depth) {
     roof.castShadow = true;
 
     const backGable = basicShape.getGableWall(width / 2, width - 15);
-    backGable.position.y = -CFG_HANGAR.LENGTH / 2;
+    backGable.position.y = -CFG_HANGAR.FOUNDATION_LENGTH / 2;
 
     backGable.rotation.x = Math.PI / 2;
     backGable.rotation.z = Math.PI / 2;
@@ -148,7 +151,7 @@ export function getBarrelRoof(width, height, depth) {
     roof.add(backGable);
 
     const frontGable = basicShape.getGableWall(width / 2, width - 15);
-    frontGable.position.y = CFG_HANGAR.LENGTH / 2;
+    frontGable.position.y = CFG_HANGAR.FOUNDATION_LENGTH / 2;
 
     frontGable.rotation.x = Math.PI / 2;
     frontGable.rotation.z = Math.PI / 2;
@@ -162,7 +165,7 @@ export function getBarrelRoof(width, height, depth) {
 
 function getDoor() {
     const door = basicShape.getCube(
-        CFG_HANGAR.WIDTH / 2,
+        CFG_HANGAR.FOUNDATION_WIDTH / 2,
         CFG_HANGAR.WALL_HEIGHT + CFG_HANGAR.FOUNDATION_HEIGHT,
         0.3,
         126
@@ -180,6 +183,7 @@ function getDoor() {
         side: THREE.DoubleSide,
         roughness: 1,
         metalness: 0.5,
+        transparrent: false,
     });
 
     door.material = doorMaterial;
@@ -189,25 +193,30 @@ function getDoor() {
     return door;
 }
 
-export function getHangar() {
-    const hangar = getFoundation(); // Das ist unser Fundament-Mesh
+export function getHangar(
+    withProps,
+    x = CFG_HANGAR.POS_X,
+    y = CFG_HANGAR.POS_Y,
+    z = CFG_HANGAR.POS_Z
+) {
+    const hangar = getFoundation(x, y, z); // Das ist unser Fundament-Mesh
 
     // Liste der Wände, die wir hinzufügen wollen
     const walls = [
         {
-            length: CFG_HANGAR.LENGTH,
+            length: CFG_HANGAR.FOUNDATION_LENGTH,
             rotationDir: 'x',
-            zPos: CFG_HANGAR.LENGTH / 2 - CFG_HANGAR.WALL_WIDTH - 2,
+            zPos: CFG_HANGAR.FOUNDATION_LENGTH / 2 - CFG_HANGAR.WALL_WIDTH - 2,
         },
         {
-            length: CFG_HANGAR.LENGTH,
+            length: CFG_HANGAR.FOUNDATION_LENGTH,
             rotationDir: 'x',
-            zPos: -CFG_HANGAR.LENGTH / 2 + CFG_HANGAR.WALL_WIDTH + 2,
+            zPos: -CFG_HANGAR.FOUNDATION_LENGTH / 2 + CFG_HANGAR.WALL_WIDTH + 2,
         },
         {
-            length: CFG_HANGAR.WIDTH - CFG_HANGAR.WALL_WIDTH * 2,
+            length: CFG_HANGAR.FOUNDATION_WIDTH - CFG_HANGAR.WALL_WIDTH * 2,
             rotationDir: 'y',
-            zPos: -CFG_HANGAR.LENGTH / 2 + CFG_HANGAR.WALL_WIDTH + 2,
+            zPos: -CFG_HANGAR.FOUNDATION_LENGTH / 2 + CFG_HANGAR.WALL_WIDTH + 2,
         },
     ];
 
@@ -223,7 +232,7 @@ export function getHangar() {
         wall.position.y = CFG_HANGAR.FOUNDATION_HEIGHT / 2 - box.min.y;
 
         if (wallData.rotationDir != 'x') {
-            wall.position.x = CFG_HANGAR.LENGTH / 2 - 0.5;
+            wall.position.x = CFG_HANGAR.FOUNDATION_LENGTH / 2 - 0.5;
             wall.position.z = 0;
         }
 
@@ -231,21 +240,30 @@ export function getHangar() {
         hangar.add(wall);
     }
 
-    const roof = getBarrelRoof(CFG_HANGAR.WIDTH, 5, CFG_HANGAR.LENGTH);
+    const roof = getBarrelRoof(CFG_HANGAR.FOUNDATION_WIDTH, 5, CFG_HANGAR.FOUNDATION_LENGTH);
     const box = new THREE.Box3().setFromObject(roof);
     roof.position.y = CFG_HANGAR.FOUNDATION_HEIGHT / 2 + CFG_HANGAR.WALL_HEIGHT - box.min.y;
 
     hangar.add(roof);
-
     const spot = getSpotLightSource(5, '#fcd8a6', hangar, 0, Math.PI / 2.5, 1);
-    spot.position.set(0, 9, 0);
+    spot.position.set(0, 8, 0);
     hangar.add(spot);
+
+    if (withProps) {
+        let beacon1 = getWarningLight(1, '#ff8800', -1, 0, 0.5, 0.5);
+        beacon1.position.set(-8, 10.1, 0);
+        hangar.add(beacon1);
+
+        let beacon2 = getWarningLight(1, '#ff8800', 1, 0, 0.5, 0.5);
+        beacon2.position.set(8, 10.1, 0);
+        hangar.add(beacon2);
+    }
 
     const doorLeft = getDoor();
     doorLeft.position.set(
-        -CFG_HANGAR.WIDTH / 2 - 2.7,
+        -CFG_HANGAR.FOUNDATION_WIDTH / 2 - 2.7,
         CFG_HANGAR.WALL_HEIGHT / 2,
-        -CFG_HANGAR.LENGTH / 4
+        -CFG_HANGAR.FOUNDATION_LENGTH / 4
     );
     doorLeft.rotation.y = Math.PI / 2;
 
@@ -253,14 +271,275 @@ export function getHangar() {
 
     const doorRight = getDoor();
     doorRight.position.set(
-        -CFG_HANGAR.WIDTH / 2 - 2.7,
+        -CFG_HANGAR.FOUNDATION_WIDTH / 2 - 2.7,
         CFG_HANGAR.WALL_HEIGHT / 2,
-        CFG_HANGAR.LENGTH / 4
+        CFG_HANGAR.FOUNDATION_LENGTH / 4
     );
     doorRight.rotation.y = Math.PI / 2;
 
     hangar.add(doorRight);
+    if (withProps) {
+        globalThis.hangarController = new HangarController(hangar, doorLeft, doorRight, spot);
+        return setUpProps(hangar);
+    }
+    return hangar;
+}
+
+function setUpProps(hangar) {
+    //Poster
+    const poster = basicShape.getPlane(3, 2, 128);
+
+    const posterMap = getMaterial(ASSET_PATHS.POSTER);
+    posterMap.wrapS = THREE.RepeatWrapping;
+    posterMap.wrapT = THREE.RepeatWrapping;
+    posterMap.repeat.set(1, 1);
+    posterMap.minFilter = THREE.NearestFilter;
+    const posterMaterial = new THREE.MeshStandardMaterial({
+        map: posterMap,
+        side: THREE.DoubleSide,
+        roughness: 1,
+    });
+
+    poster.material = posterMaterial;
+    poster.position.set(0, 2, -CFG_HANGAR.FOUNDATION_WIDTH / 2 + CFG_HANGAR.WALL_WIDTH + 0.001);
+
+    hangar.add(poster);
+
+    //Desks
+    getGLBModel((gltf) => {
+        const desk = gltf.scene;
+        desk.position.set(
+            0,
+            CFG_HANGAR.FOUNDATION_HEIGHT / 2 + 0.001,
+            -CFG_HANGAR.FOUNDATION_WIDTH / 2 + CFG_HANGAR.WALL_WIDTH * 1.5 + 0.001
+        );
+
+        enableShadow(desk);
+
+        const desk2 = desk.clone();
+        desk2.position.x += 2;
+        const desk3 = desk.clone();
+        desk3.position.x -= 2;
+        hangar.add(desk, desk2, desk3);
+    }, ASSET_PATHS.METAL_DESK);
+
+    //Chairs
+    getGLBModel((gltf) => {
+        const chair = gltf.scene;
+        chair.position.set(
+            0,
+            CFG_HANGAR.FOUNDATION_HEIGHT / 2 + 0.001,
+            -CFG_HANGAR.FOUNDATION_WIDTH / 2 + CFG_HANGAR.WALL_WIDTH * 1.5 + 0.001 + 1
+        );
+        enableShadow(chair);
+
+        const chair2 = chair.clone();
+        chair2.position.x += 2;
+        chair2.position.z -= 0.7;
+        chair2.rotation.y = Math.PI;
+
+        const chair3 = chair2.clone();
+        chair3.position.x -= 4;
+
+        chair.rotation.y = Math.PI / 2 + 40;
+        hangar.add(chair, chair2, chair3);
+    }, ASSET_PATHS.WOODEN_CHAIR);
+
+    //CoffeeCart
+    getGLBModel((gltf) => {
+        const cart = gltf.scene;
+        cart.position.set(
+            5,
+            CFG_HANGAR.FOUNDATION_HEIGHT / 2 + 0.001,
+            -CFG_HANGAR.FOUNDATION_WIDTH / 2 + CFG_HANGAR.WALL_WIDTH * 1.5 + 0.05
+        );
+        enableShadow(cart);
+        hangar.add(cart);
+    }, ASSET_PATHS.COFFEE_CART);
+
+    //Racks
+    getGLBModel((gltf) => {
+        const baseRack = gltf.scene;
+
+        const rackCount = 5; // Anzahl der Regale
+        const startX = -10; // Startposition X
+        const spacing = 1; // Abstand zwischen den Regalen
+        baseRack.position.set(
+            startX,
+            CFG_HANGAR.FOUNDATION_HEIGHT / 2 + 0.001,
+            -CFG_HANGAR.FOUNDATION_WIDTH / 2 + CFG_HANGAR.WALL_WIDTH * 1.2 + 0.15
+        );
+        enableShadow(baseRack);
+        hangar.add(baseRack);
+        for (let i = 0; i < rackCount; i++) {
+            const rack = baseRack.clone();
+
+            // Position berechnen: Startwert + (Index * Abstand)
+            rack.position.set(startX + i * spacing, baseRack.position.y, baseRack.position.z);
+
+            hangar.add(rack);
+        }
+    }, ASSET_PATHS.METAL_RACK_1);
+
+    getGLBModel((gltf) => {
+        const baseRack = gltf.scene;
+
+        const rackCount = 15; // Anzahl der Regale
+        const startX = -10; // Startposition X
+        const spacing = 1; // Abstand zwischen den Regalen
+        baseRack.position.set(
+            startX,
+            CFG_HANGAR.FOUNDATION_HEIGHT / 2 + 0.001,
+            CFG_HANGAR.FOUNDATION_WIDTH / 2 - CFG_HANGAR.WALL_WIDTH * 1.2 - 0.15
+        );
+        enableShadow(baseRack);
+        hangar.add(baseRack);
+        for (let i = 0; i < rackCount; i++) {
+            const rack = baseRack.clone();
+
+            // Position berechnen: Startwert + (Index * Abstand)
+            rack.position.set(startX + i * spacing, baseRack.position.y, baseRack.position.z);
+
+            hangar.add(rack);
+        }
+    }, ASSET_PATHS.METAL_RACK_1);
+
+    //Other
+    getGLBModel((gltf) => {
+        const fireAlarm = gltf.scene;
+        fireAlarm.position.set(
+            3.5,
+            CFG_HANGAR.WALL_HEIGHT / 4,
+            -CFG_HANGAR.FOUNDATION_WIDTH / 2 + CFG_HANGAR.WALL_WIDTH
+        );
+        fireAlarm.scale.set(2, 2, 2);
+        enableShadow(fireAlarm);
+
+        hangar.add(fireAlarm);
+    }, ASSET_PATHS.FIRE_ALARM);
+
+    getGLBModel((gltf) => {
+        const dartboard = gltf.scene;
+        dartboard.position.set(
+            6,
+            CFG_HANGAR.WALL_HEIGHT / 4,
+            CFG_HANGAR.FOUNDATION_WIDTH / 2 - CFG_HANGAR.WALL_WIDTH
+        );
+        dartboard.rotation.y = Math.PI;
+        dartboard.scale.set(1.5, 1.5, 1.5);
+        enableShadow(dartboard);
+
+        hangar.add(dartboard);
+    }, ASSET_PATHS.DARTBOARD);
+
+    getGLBModel((gltf) => {
+        const powerBox = gltf.scene;
+        powerBox.position.set(
+            -12,
+            CFG_HANGAR.WALL_HEIGHT / 4 - 0.3,
+            CFG_HANGAR.FOUNDATION_WIDTH / 2 - CFG_HANGAR.WALL_WIDTH - 0.08
+        );
+        powerBox.rotation.y = Math.PI;
+        powerBox.scale.set(1.5, 1.5, 1.5);
+        enableShadow(powerBox);
+
+        hangar.add(powerBox);
+    }, ASSET_PATHS.ELECTRIC_POWER_BOX);
+
+    //Outside
+    getGLBModel((gltf) => {
+        const powerBox = gltf.scene;
+        powerBox.position.set(
+            -12,
+            CFG_HANGAR.WALL_HEIGHT / 4 - 0.3,
+            -CFG_HANGAR.FOUNDATION_WIDTH / 2 - CFG_HANGAR.WALL_WIDTH + 0.92
+        );
+        powerBox.rotation.y = Math.PI;
+        powerBox.scale.set(1.5, 1.5, 1.5);
+        enableShadow(powerBox);
+
+        hangar.add(powerBox);
+    }, ASSET_PATHS.ELECTRIC_POWER_BOX);
+
+    getGLBModel((gltf) => {
+        const powerBox = gltf.scene;
+        powerBox.position.set(
+            -12.6,
+            CFG_HANGAR.WALL_HEIGHT / 4 - 0.45,
+            -CFG_HANGAR.FOUNDATION_WIDTH / 2 - CFG_HANGAR.WALL_WIDTH + 0.92
+        );
+        powerBox.rotation.y = Math.PI;
+        powerBox.scale.set(1.5, 2, 2);
+        enableShadow(powerBox);
+
+        hangar.add(powerBox);
+    }, ASSET_PATHS.ELECTRIC_POWER_BOX);
+
+    getGLBModel((gltf) => {
+        const light = gltf.scene;
+        light.position.set(0, 10.25, 0);
+        light.scale.set(2, 2, 2);
+        enableShadow(light);
+        hangar.add(light);
+    }, ASSET_PATHS.HANGING_LIGHT);
 
     return hangar;
 }
 
+function enableShadow(object, type = 'cast') {
+    if (type === 'cast') {
+        object.traverse((node) => {
+            node.castShadow = true;
+            if (node.isMesh) {
+                if (node.material) {
+                    node.material.side = THREE.DoubleSide;
+                }
+            }
+        });
+    } else {
+        object.traverse((node) => {
+            node.receiveShadow = true;
+            if (node.isMesh) {
+                if (node.material) {
+                    node.material.side = THREE.DoubleSide;
+                }
+            }
+        });
+    }
+}
+
+export class HangarController {
+    constructor(hangar, doorLeft, doorRight, spot) {
+        this.hangar = hangar;
+        this.controls = {
+            lightIntensity: 5,
+            doorOpening: 6,
+        };
+
+        this.initGUI();
+
+        this.doorLeft = doorLeft;
+        this.doorRight = doorRight;
+        this.spotLight = spot;
+        console.log(this.doorLeft, this.doorRight, this.spotLight); // Falls vorhanden
+    }
+
+    initGUI() {
+        this.gui = new dat.GUI();
+        this.gui.add(this.controls, 'lightIntensity', 0, 5).name('Lichtintensität');
+        this.gui.add(this.controls, 'doorOpening', 6, 13).name('Tür Öffnung');
+    }
+
+    update() {
+        // Beispiel-Aktualisierungen
+        if (this.doorLeft) {
+            this.doorLeft.position.z = this.controls.doorOpening;
+        }
+        if (this.doorRight) {
+            this.doorRight.position.z = -this.controls.doorOpening;
+        }
+        if (this.spotLight) {
+            this.spotLight.intensity = this.controls.lightIntensity;
+        }
+    }
+}

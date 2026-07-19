@@ -59,6 +59,10 @@ function main() {
         if (globalThis.airplaneController) {
             globalThis.airplaneController.update();
         }
+        if (globalThis.hangarController) {
+            globalThis.hangarController.update();
+        }
+        
 
         requestAnimationFrame(render);
         app.renderer.render(app.scene, app.camera);
