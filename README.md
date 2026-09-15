@@ -1,4 +1,5 @@
 # Computergrafik-Kürteil
+Diese Abgabe wurde mit 49/50 Punkten bewertet ging zu 50% in meine Endnote für den Kurs "Computergrafik" ein
 
 ## Zusammenfassung
 Dieses Projekt umfasst die Entwicklung und Visualisierung einer Hangar-Szene, in der eine F-16 Fighting Falcon als zentrales Objekt platziert ist. Ziel war es, eine realistische Umgebung zu schaffen, die sowohl technisch als auch visuell überzeugt.
